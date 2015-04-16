@@ -10,10 +10,12 @@ This will
 * automatically rebuild documentation when your code changes
 * automatically reload the page for you if you have [LiveReload](http://livereload.com/) installed.
 
+![](http://i.imgur.com/I0VFaha.gif)
+
 ## Installation
 
 This packages the documentationjs project, so it is installable with
-one command.
+one command. You'll need [nodejs](https://nodejs.org/) installed.
 
 ```sh
 $ npm install dev-documentation
