@@ -18,7 +18,7 @@ This packages the documentationjs project, so it is installable with
 one command. You'll need [nodejs](https://nodejs.org/) installed.
 
 ```sh
-$ npm install dev-documentation
+$ npm install -g dev-documentation
 ```
 
 ## Usage

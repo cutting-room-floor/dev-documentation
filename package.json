@@ -11,6 +11,9 @@
     "write",
     "tool"
   ],
+  "bin": {
+    "dev-documentation": "index.js"
+  },
   "author": "Tom MacWright",
   "license": "ISC",
   "dependencies": {

@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var http = require('http');
 var ecstatic = require('ecstatic');
 var watch = require('chokidar').watch;
