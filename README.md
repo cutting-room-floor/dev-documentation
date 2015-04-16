@@ -3,6 +3,10 @@
 A documentation-building server. Heavily inspired and partially copied from mattdesl's
 [excellent budo project](https://github.com/mattdesl/budo).
 
+The core smarts are the [documentation](https://github.com/documentationjs/documentation) project,
+but this makes a workflow - a feedback loop of editing and previewing documentation -
+smooth and fast.
+
 This will
 
 * run a server for you
