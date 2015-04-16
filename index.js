@@ -8,7 +8,8 @@ var path = require('path');
 var PassThrough = require('stream').PassThrough;
 var inject = require('inject-lr-script');
 var vfs = require('vinyl-fs');
-var log = require('bole')('documentation');
+var bole = require('bole'),
+    log = bole('documentation');
 var handler = require('ecstatic')(process.cwd());
 var Emitter = require('events/');
 
@@ -102,9 +103,15 @@ http.createServer(handler.router).listen(8000, function() {
   watch('.', { ignored: ignores }).on('all', function(/*event , path*/) {
     log.info('change detected, rebuilding documentation');
     makeDocs(function() {
-      opn('http://localhost:8000/');
+      log.info('change detected, documentation built: reloading');
       tinylr.reload();
     });
   });
+  opn('http://localhost:8000/');
   console.log('open http://localhost:8000/ in your browser');
+});
+
+bole.output({
+  level: 'info',
+  stream: process.stdout
 });
