@@ -19,6 +19,7 @@
   "dependencies": {
     "bole": "^2.0.0",
     "chokidar": "^1.0.1",
+    "debounce": "^1.0.0",
     "documentation": "^1.0.6",
     "ecstatic": "^0.7.3",
     "events": "^1.0.2",

@@ -3,6 +3,7 @@ var http = require('http');
 var ecstatic = require('ecstatic');
 var watch = require('chokidar').watch;
 var opn = require('opn');
+var debounce = require('debounce');
 var Router = require('routes-router');
 var path = require('path');
 var PassThrough = require('stream').PassThrough;
@@ -100,13 +101,13 @@ function makeDocs(callback) {
 }
 
 http.createServer(handler.router).listen(8000, function() {
-  watch('.', { ignored: ignores }).on('all', function(/*event , path*/) {
+  watch('.', { ignored: ignores }).on('all', debounce(function(/*event , path*/) {
     log.info('change detected, rebuilding documentation');
     makeDocs(function() {
       log.info('change detected, documentation built: reloading');
       tinylr.reload();
     });
-  });
+  }, 100));
   opn('http://localhost:8000/');
   console.log('open http://localhost:8000/ in your browser');
 });
