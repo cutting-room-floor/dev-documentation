@@ -11,6 +11,7 @@ var inject = require('inject-lr-script');
 var vfs = require('vinyl-fs');
 var bole = require('bole'),
     log = bole('documentation');
+var pretty = require('bistre')();
 var handler = require('ecstatic')(process.cwd());
 var Emitter = require('events/');
 
@@ -56,7 +57,7 @@ handler.router = router;
 function wildcard(html) {
   return function(req, res) {
     if (html && emitter.live) res = inject(res, emitter.live);
-    log.info({ url: req.url, type: 'static' });
+    log.debug('get %s', req.url);
     staticHandler(req, res);
   };
 }
@@ -114,5 +115,7 @@ http.createServer(handler.router).listen(8000, function() {
 
 bole.output({
   level: 'info',
-  stream: process.stdout
+  stream: pretty
 });
+
+pretty.pipe(process.stdout);
