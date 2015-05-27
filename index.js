@@ -1,25 +1,24 @@
 #!/usr/bin/env node
-var http = require('http');
-var ecstatic = require('ecstatic');
-var watch = require('chokidar').watch;
-var opn = require('opn');
-var debounce = require('debounce');
-var Router = require('routes-router');
-var path = require('path');
-var PassThrough = require('stream').PassThrough;
-var inject = require('inject-lr-script');
-var vfs = require('vinyl-fs');
-var bole = require('bole'),
-    log = bole('documentation');
+var http = require('http'),
+    ecstatic = require('ecstatic'),
+    watch = require('chokidar').watch,
+    opn = require('opn'),
+    pick = require('101/pick'),
+    debounce = require('debounce'),
+    Router = require('routes-router'),
+    path = require('path'),
+    PassThrough = require('stream').PassThrough,
+    inject = require('inject-lr-script'),
+    vfs = require('vinyl-fs'),
+    bole = require('bole'),
+    log = bole('documentation'),
+    handler = require('ecstatic')(process.cwd()),
+    Emitter = require('events/'),
+    documentation = require('documentation');
+
 var pretty = require('bistre')();
-var handler = require('ecstatic')(process.cwd());
-var Emitter = require('events/');
-
-var documentation = require('documentation');
 var github = require('documentation/streams/github');
-
 var createTinylr = require('./tinylr');
-
 var router = Router();
 var staticHandler = ecstatic('./docs/');
 var tinylr = createTinylr({});
@@ -88,13 +87,12 @@ if (argv._.length > 0) {
  * @param {Function} callback called when build is complete.
  */
 function makeDocs(callback) {
-    var formatter = documentation.formats.html({
-        name: name,
-        version: version
-    });
-    documentation(inputs, {
-      private: argv.private
-    })
+  var formatter = documentation.formats.html({
+    name: name,
+    version: version
+  });
+
+  documentation(inputs, pick(argv, ['private', 'polyglot']))
     .pipe(argv.g ? github() : new PassThrough({ objectMode: true }))
     .pipe(formatter)
     .pipe(vfs.dest(argv.o))
