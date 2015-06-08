@@ -39,6 +39,8 @@ var yargs = require('yargs')
   .describe('o', 'output location. omit for stdout, otherwise is a filename for single-file outputs and a directory name for multi-file outputs like html')
   .alias('o', 'output')
   .default('o', 'docs')
+  .describe('no', 'do not automatically open a browser window')
+  .boolean('no')
   .help('h')
   .alias('h', 'help')
   .example('$0 foo.js', 'parse documentation in a given file'),
@@ -109,7 +111,7 @@ http.createServer(handler.router).listen(8000, function() {
       tinylr.reload();
     });
   }, 100));
-  opn('http://localhost:8000/');
+  if (!argv.no) opn('http://localhost:8000/');
   console.log('open http://localhost:8000/ in your browser');
 });
 
