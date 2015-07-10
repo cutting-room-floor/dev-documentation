@@ -125,7 +125,7 @@ function makeDocs(callback) {
 http.createServer(handler.router).listen(8000, function () {
   var watched = inputs.map(path.dirname);
   if (argv.theme) {
-    watched.push(path.basename(require.resolve(argv.theme)));
+    watched.push(path.basename(require.resolve(path.join(process.cwd(), argv.theme))));
   }
   watch(watched, { ignored: ignores }).on('all', debounce(function (/* event, path */) {
     log.info('change detected, rebuilding documentation');
