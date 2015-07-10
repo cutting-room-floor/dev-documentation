@@ -4,7 +4,7 @@
   "description": "a documentation writing tool",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "eslint --no-eslintrc -c .eslintrc ."
   },
   "keywords": [
     "documentation",

@@ -1,4 +1,7 @@
 #!/usr/bin/env node
+
+'use strict';
+
 var http = require('http'),
     ecstatic = require('ecstatic'),
     watch = require('chokidar').watch,
@@ -11,15 +14,15 @@ var http = require('http'),
     inject = require('inject-lr-script'),
     vfs = require('vinyl-fs'),
     bole = require('bole'),
-    log = bole('documentation'),
-    handler = require('ecstatic')(process.cwd()),
     Emitter = require('events/'),
     documentation = require('documentation');
 
+var log = bole('documentation');
+var handler = ecstatic(process.cwd());
 var pretty = require('bistre')();
 var github = require('documentation/streams/github');
 var createTinylr = require('./lib/tinylr');
-var router = Router();
+var router = new Router();
 var staticHandler = ecstatic('./docs/');
 var tinylr = createTinylr({});
 
@@ -45,7 +48,8 @@ var yargs = require('yargs')
   .boolean('polyglot')
   .describe('polyglot', 'support non-javascript languages at the cost of dependency resolution')
 
-  .describe('o', 'output location. omit for stdout, otherwise is a filename for single-file outputs and a directory name for multi-file outputs like html')
+  .describe('o', 'output location. omit for stdout, otherwise is a filename for ' +
+            'single-file outputs and a directory name for multi-file outputs like html')
   .alias('o', 'output')
   .default('o', 'docs')
 
@@ -70,8 +74,10 @@ emitter.contents = '';
 handler.router = router;
 
 function wildcard(html) {
-  return function(req, res) {
-    if (html && emitter.live) res = inject(res, emitter.live);
+  return function (req, res) {
+    if (html && emitter.live) {
+      res = inject(res, emitter.live);
+    }
     log.debug('get %s', req.url);
     staticHandler(req, res);
   };
@@ -116,15 +122,17 @@ function makeDocs(callback) {
     .on('end', callback);
 }
 
-http.createServer(handler.router).listen(8000, function() {
-  watch('.', { ignored: ignores }).on('all', debounce(function(/*event , path*/) {
+http.createServer(handler.router).listen(8000, function () {
+  watch('.', { ignored: ignores }).on('all', debounce(function (/*event , path*/) {
     log.info('change detected, rebuilding documentation');
-    makeDocs(function() {
+    makeDocs(function () {
       log.info('change detected, documentation built: reloading');
       tinylr.reload();
     });
   }, 100));
-  if (!argv.no) opn('http://localhost:8000/');
+  if (!argv.no) {
+    opn('http://localhost:8000/');
+  }
   console.log('open http://localhost:8000/ in your browser');
 });
 
