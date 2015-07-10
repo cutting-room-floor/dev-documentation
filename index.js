@@ -18,31 +18,43 @@ var http = require('http'),
 
 var pretty = require('bistre')();
 var github = require('documentation/streams/github');
-var createTinylr = require('./tinylr');
+var createTinylr = require('./lib/tinylr');
 var router = Router();
 var staticHandler = ecstatic('./docs/');
 var tinylr = createTinylr({});
 
 var yargs = require('yargs')
   .usage('Usage: $0 <command> [options]')
+
   .describe('lint', 'check output for common style and uniformity mistakes')
+
   .boolean('p')
   .describe('p', 'generate documentation tagged as private')
   .alias('p', 'private')
+
   .describe('name', 'project name. by default, inferred from package.json')
   .describe('version', 'project version. by default, inferred from package.json')
+
+  .describe('t', 'specify a theme: this must be a valid theme module')
+  .alias('t', 'theme')
+
   .boolean('g')
   .describe('g', 'infer links to github in documentation')
+  .alias('g', 'github')
+
   .boolean('polyglot')
   .describe('polyglot', 'support non-javascript languages at the cost of dependency resolution')
-  .alias('g', 'github')
+
   .describe('o', 'output location. omit for stdout, otherwise is a filename for single-file outputs and a directory name for multi-file outputs like html')
   .alias('o', 'output')
   .default('o', 'docs')
+
   .describe('no', 'do not automatically open a browser window')
   .boolean('no')
+
   .help('h')
   .alias('h', 'help')
+
   .example('$0 foo.js', 'parse documentation in a given file'),
   argv = yargs.argv;
 
@@ -93,6 +105,7 @@ if (argv._.length > 0) {
 function makeDocs(callback) {
   var formatter = documentation.formats.html({
     name: name,
+    theme: argv.theme,
     version: version
   });
 
