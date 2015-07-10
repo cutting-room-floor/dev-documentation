@@ -21,7 +21,7 @@ var log = bole('documentation');
 var handler = ecstatic(process.cwd());
 var pretty = require('bistre')();
 var github = require('documentation/streams/github');
-var createTinylr = require('./lib/tinylr');
+var createTinylr = require('../lib/tinylr');
 var router = new Router();
 var staticHandler = ecstatic('./docs/');
 var tinylr = createTinylr({});
@@ -84,8 +84,8 @@ function wildcard(html) {
 }
 
 var ignores = [
-  'node_modules/**', 'bower_components/**',
-  '.git', '.hg', '.svn', '.DS_Store',
+  '*node_modules/**', '*bower_components/**',
+  '*.git*', '*.hg*', '*.svn*', '*.DS_Store*',
   '*.swp', 'thumbs.db', 'desktop.ini', 'docs', 'docs/**'
 ];
 
@@ -123,7 +123,11 @@ function makeDocs(callback) {
 }
 
 http.createServer(handler.router).listen(8000, function () {
-  watch('.', { ignored: ignores }).on('all', debounce(function (/*event , path*/) {
+  var watched = inputs.map(path.dirname);
+  if (argv.theme) {
+    watched.push(path.basename(require.resolve(argv.theme)));
+  }
+  watch(watched, { ignored: ignores }).on('all', debounce(function (/* event, path */) {
     log.info('change detected, rebuilding documentation');
     makeDocs(function () {
       log.info('change detected, documentation built: reloading');

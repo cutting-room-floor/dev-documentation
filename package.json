@@ -2,7 +2,6 @@
   "name": "dev-documentation",
   "version": "2.0.0",
   "description": "a documentation writing tool",
-  "main": "index.js",
   "scripts": {
     "test": "eslint --no-eslintrc -c .eslintrc ."
   },
@@ -12,7 +11,7 @@
     "tool"
   ],
   "bin": {
-    "dev-documentation": "index.js"
+    "dev-documentation": "bin/dev-documentation"
   },
   "author": "Tom MacWright",
   "license": "ISC",
