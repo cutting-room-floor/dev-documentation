@@ -1,6 +1,6 @@
 {
   "name": "dev-documentation",
-  "version": "2.1.0-alpha",
+  "version": "2.1.0-alpha1",
   "description": "a documentation writing tool",
   "scripts": {
     "test": "eslint --no-eslintrc -c .eslintrc ."
@@ -21,7 +21,7 @@
     "bole": "^2.0.0",
     "chokidar": "^1.0.1",
     "debounce": "^1.0.0",
-    "documentation": "2.1.0-alpha",
+    "documentation": "2.1.0-alpha1",
     "ecstatic": "^0.8.0",
     "events": "^1.0.2",
     "inject-lr-script": "^1.0.1",
