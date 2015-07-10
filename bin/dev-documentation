@@ -122,10 +122,28 @@ function makeDocs(callback) {
     .on('end', callback);
 }
 
+/**
+ * Given the name of a theme as a module, return the directory it
+ * resides in, or throw an error if it is not found
+ * @param {string} theme the module name
+ * @throws {Error} if theme is not found
+ * @returns {string} directory
+ */
+function resolveTheme(theme) {
+  try {
+    if (theme[0] === '.' || theme[0] === '/') {
+      theme = path.join(process.cwd(), theme);
+    }
+    return path.dirname(require.resolve(theme));
+  } catch(e) {
+    throw new Error('Theme ' + theme + ' not found');
+  }
+}
+
 http.createServer(handler.router).listen(8000, function () {
   var watched = inputs.map(path.dirname);
   if (argv.theme) {
-    watched.push(path.basename(require.resolve(path.join(process.cwd(), argv.theme))));
+    watched.push(resolveTheme(argv.theme));
   }
   watch(watched, { ignored: ignores }).on('all', debounce(function (/* event, path */) {
     log.info('change detected, rebuilding documentation');
