@@ -3,25 +3,25 @@
 'use strict';
 
 var http = require('http'),
-    ecstatic = require('ecstatic'),
-    watch = require('chokidar').watch,
-    opn = require('opn'),
-    pick = require('101/pick'),
-    debounce = require('debounce'),
-    Router = require('routes-router'),
-    path = require('path'),
-    PassThrough = require('stream').PassThrough,
-    inject = require('inject-lr-script'),
-    vfs = require('vinyl-fs'),
-    bole = require('bole'),
-    Emitter = require('events/'),
-    documentation = require('documentation');
+  ecstatic = require('ecstatic'),
+  watch = require('chokidar').watch,
+  opn = require('opn'),
+  pick = require('101/pick'),
+  debounce = require('debounce'),
+  Router = require('routes-router'),
+  path = require('path'),
+  PassThrough = require('stream').PassThrough,
+  inject = require('inject-lr-script'),
+  vfs = require('vinyl-fs'),
+  bole = require('bole'),
+  Emitter = require('events'),
+  createTinylr = require('../lib/tinylr'),
+  documentation = require('documentation');
 
 var log = bole('documentation');
 var handler = ecstatic(process.cwd());
 var pretty = require('bistre')();
 var github = require('documentation/streams/github');
-var createTinylr = require('../lib/tinylr');
 var router = new Router();
 var staticHandler = ecstatic('./docs/');
 var tinylr = createTinylr({});
