@@ -1,5 +1,7 @@
 # dev-documentation
 
+[![Circle CI](https://circleci.com/gh/documentationjs/dev-documentation/tree/master.svg?style=svg)](https://circleci.com/gh/documentationjs/dev-documentation/tree/master)
+
 A documentation-building server. Heavily inspired and partially copied from mattdesl's
 [excellent budo project](https://github.com/mattdesl/budo).
 
