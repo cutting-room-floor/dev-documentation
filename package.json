@@ -15,6 +15,10 @@
   },
   "author": "Tom MacWright",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/documentationjs/dev-documentation"
+  },
   "dependencies": {
     "101": "^1.0.0",
     "bistre": "^1.0.1",
